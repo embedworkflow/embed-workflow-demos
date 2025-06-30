@@ -1,22 +1,33 @@
-# Todo App With Embed Workflow Integration
+# Build Your Own Automation Platform: Todo App with Embedded Workflows
 
 ![Demo](media/demo.gif)
 
-This Todo application integrates with Embed Workflow to send email or Slack notifications when you create or complete tasks.
+See your workflows embedded directly in your application! This Todo app demonstrates how to integrate Embed Workflow for automated email and Slack notifications.
 
-## Features
+## Table of Contents
 
-- Create and manage tasks
-- Mark tasks as complete
-- Send email or Slack notifications when you create or complete tasks
-- Integrate with Embed Workflow for automation
-- Access embedded Workflow UI for workflow management
+- [Quick Start Guide](#quick-start-guide)
+  - [1. Navigate to Project Directory](#1-navigate-to-project-directory)
+  - [2. Install Dependencies](#2-install-dependencies)
+  - [3. Set Up Embed Workflow](#3-set-up-embed-workflow)
+  - [4. Run the Development Server](#4-run-the-development-server)
+  - [5. Experience Your Embedded Automation Platform](#5-experience-your-embedded-automation-platform)
+  - [6. You're Ready to Build!](#6-youre-ready-to-build)
+- [Configure Your Workflows](#configure-your-workflows)
+  - [1. Create Triggers](#1-create-triggers)
+  - [2. Create Workflows](#2-create-workflows)
+- [Using the Application](#using-the-application)
+- [Implementation Notes](#implementation-notes)
+- [Slack Configuration](#slack-configuration)
+- [Customization](#customization)
+- [How it was implemented?](#how-it-was-implemented)
+  - [Embedded Workflow Implementation](#embedded-workflow-implementation)
 
-## Setup Instructions
+## 🚀 Quick Start
+
+Follow these steps to see the embedded workflow builder in your app within minutes.
 
 ### 1. Navigate to Project Directory
-
-If you have the whole repository open locally, navigate to this project's directory:
 
 ```bash
 cd beginner/todo-slack-notifications
@@ -32,80 +43,11 @@ npm install
 yarn install
 ```
 
-### 3. Configure Embed Workflow
+### 3. Set Up Embed Workflow
 
-Set up the following in your Embed Workflow account:
+**Prerequisites:** You need an Embed Workflow account. [Sign up here](https://embedworkflow.com) if you don't have one.
 
-1. **Create Task Created Trigger**  
-   ![Embed Workflow Triggers Tab](media/embed-workflow-triggers-tab.png)
-   Go to your Embed Workflow dashboard and navigate to the Triggers tab. Click "New Trigger" and configure these fields:
-   - Name: "Task Created"
-   - Data Schema:
-   ![Trigger Data Schema Configuration](media/trigger-data-schema-config.png)
-     - task_id (String)
-     - task_name (String)
-     - task_description (String)
-     - created_at (Date)
-     - email_list (Array)
-
-   **Understanding Variable vs Data Path:**
-   When configuring the Data Input Schema for your trigger:
-   - **Variable:** The name you'll use to reference this data in your workflow actions (e.g., `task_name`, `email_to`)
-   - **Data Path:** The actual path in the JSON data your application sends (e.g., `data.task.name`, `data.assignee.email`)
-   
-   The Variable is what appears in your action configurations as `{{variable_name}}`, while the Data Path tells Embed Workflow where to find that data in your API payload.
-
-2. **Create Task Completed Trigger**  
-   Follow the same process as the Task Created trigger but name it "Task Completed" and add the field "completed_at" (Date) instead of "created_at".
-
-3. **Create Workflows**  
-   Go to the Workflows tab and create workflows that connect the triggers to the pre-made actions. Embed Workflow provides built-in "Send Email" and "Send Message" (for Slack) actions that you can use without creating custom actions.
-
-   **Set Up Your Workflow:**
-   1. Click "New Workflow"
-   2. Give your workflow a descriptive title
-   3. Click on the trigger balloon (circle icon)
-   4. Select the "Task Created" trigger you created in step 1
-   5. Click the **+** sign that appears under the trigger balloon
-   6. Select the "Send Email" action
-   7. Click on the "Send Email" action to configure it
-
-   **Set Up Email Connection:**
-   When you click on the Send Email action, you'll need to create an email connection:
-   1. Click "Create a new connection"
-   2. Select the email service you want to use for automation
-   3. Click "Continue"
-   4. Give your connection a descriptive name
-   5. Click "Save"
-
-   **Configure the Send Email Action:**
-   When setting up the Send Email action, you can use variables from your trigger schema by clicking the **+** sign next to each field. This will reference the variable names defined in your trigger's Data Schema section.
-
-   Example configuration for task completion emails:
-   - **Title:** Send Task Completion Email
-   - **Key:** send_task_completion_email
-   - **From:** (leave empty to use default Gmail address)
-   - **To:** `{{email_to}}` (references the email variable from your trigger)
-   - **Subject:** `{{task_name}}` (uses the task name from the trigger data)
-   - **Email Body:**
-     ```
-     Hi there,
-     
-     A task assigned to you has been completed:
-     
-     Task: {{task_name}}
-     Description: {{task_description}}
-     
-     Best regards,
-     Todo App Team
-     ```
-
-   **Set Up Slack Notifications (Optional):**
-   If you want to send Slack notifications instead of or in addition to email, follow the same workflow creation process but select "Send Message" action instead of "Send Email". For detailed Slack setup instructions, see the [Slack Configuration](#slack-configuration) section below.
-
-### 4. Set Environment Variables
-
-Create a `.env.local` file in the root directory with your Embed Workflow credentials:
+Create a `.env.local` file in the root directory:
 
 ```bash
 EMBED_WORKFLOW_SK=your_secret_key
@@ -113,32 +55,16 @@ EMBED_WORKFLOW_PK=your_publishable_key
 EMBED_WORKFLOW_UI_VERSION=1.43.0
 ```
 
-**Get Your API Keys:**
+**Get Your API Keys and User Key:**
 
 ![alt text](media/image.png)
 
-1. **Log In to Your Account**  
-   Access your Embed Workflow account.
+1. Log into your [Embed Workflow account](https://embedworkflow.com/app)
+2. Click the gear icon (⚙️) → API Keys
+3. Copy your Secret Key, Publishable Key, and User Key
+4. Update the `.env.local` file with your actual keys
 
-2. **Access Account Settings**  
-   Click the gear icon (⚙️) in the top navigation.
-
-3. **Navigate to API Keys**  
-   Click the "API Keys" tab.
-
-4. **Locate Your Keys**  
-   Find these keys:
-   - **Secret Key** (EMBED_WORKFLOW_SK) - Server-side API calls
-   - **Publishable Key** (EMBED_WORKFLOW_PK) - Client-side integration
-   - **User Key** - Your unique user identifier
-
-**Security Notes:**
-
-- Keep your Secret Key secure and never expose it in client-side code
-- The Publishable Key is safe to use in frontend applications
-- Add `.env.local` to your `.gitignore` file to avoid committing sensitive information
-
-### 5. Run the Development Server
+### 4. Run the Development Server
 
 ```bash
 npm run dev
@@ -146,32 +72,164 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+### 5. Experience Your Embedded Automation Platform
+
+1. Open [http://localhost:3000](http://localhost:3000)
+2. Click the **"Workflows"** tab
+  ![alt text](media/Animação5.gif)
+3. Enter your User Key (found in the same API Keys section from step 3 above)
+4. Click **"Load"** to see the embedded workflow builder
+
+### 6. You're Ready to Build!
+
+🎉 **This is it!** You've successfully embedded a complete automation platform into your Todo app. No redirects, no external tools - your users can now create workflows and powerful automations without ever leaving your application.
+
+**What's Next?** Set up your triggers and create your first workflow in the section below.
+
+---
+
+## Configure Your Workflows
+
+Now that you've seen the embedded builder, let's set up the triggers and workflows for the Todo app.
+
+### 1. Create Triggers
+
+In your Embed Workflow dashboard, navigate to the Triggers tab and create these triggers:
+
+![Embed Workflow Triggers Tab](media/embed-workflow-triggers-tab.png)
+
+**Steps to Create a Trigger:**
+1. Go to your Embed Workflow dashboard
+2. Click on the "Triggers" tab
+3. Click "New Trigger"
+4. Configure the fields using the YAML configurations below
+5. Click **"Publish Changes"** to make your triggers active
+
+**Understanding Variable vs Data Path:**
+
+![Trigger Data Schema Configuration](media/trigger-data-schema-config.png)
+
+- **Variable:** The name you'll use to reference this data in your workflow actions (e.g., `task_name`, `task_description`)
+- **Data Path:** The actual path in the JSON data your application sends (e.g., `task_id`, `task_name`)
+
+The Variable appears in your action configurations as `{{variable_name}}`, while the Data Path tells Embed Workflow where to find that data in your API payload.
+
+#### Task Created Trigger
+
+```yaml
+event: "todo_list_item_created"
+icon:
+  type: "bolt"
+  background_color: "slate"
+groups: []
+data_input_schema:
+  - type: "String"
+    required: true
+    variable: "task_id"
+    data_path: "task_id"
+    display_label: "Task ID"
+  - type: "String"
+    required: true
+    variable: "task_name"
+    data_path: "task_name"
+    display_label: "Task Name"
+  - type: "String"
+    required: true
+    variable: "task_description"
+    data_path: "task_description"
+    display_label: "Task Description"
+  - type: "Date"
+    required: true
+    variable: "created_at"
+    data_path: "created_at"
+    display_label: "Created At"
+title: "Task Created"
+description: "A task was created"
+```
+
+#### Task Completed Trigger
+
+**Pro tip:** Duplicate the Task Created trigger and modify these fields:
+
+```yaml
+event: "todo_list_item_completed"
+title: "Task Completed"
+description: "A task was completed"
+data_input_schema:
+  # Same as Task Created, but replace "created_at" with:
+  - type: "Date"
+    required: true
+    variable: "completed_at"
+    data_path: "completed_at"
+    display_label: "Completed At"
+```
+
+### 2. Create Workflows
+
+Now you can build workflows directly in your embedded application! 
+
+1. **Access the Workflow Builder**
+   - In your Todo app, click the "Workflows" tab
+   - Enter your User Key (found in your API Keys section)
+   - Click "Load" to access your workflow builder
+
+2. **Create Your First Workflow**
+   - Click "New Workflow" in the embedded builder
+   - Give it a descriptive name (e.g., "Send Email on Task Creation")
+   - Select your Task Created trigger
+   - Click the **+** sign below the trigger to add your first action
+   - Choose an action (like Send Email) from the available options
+   - Each action shows additional **+** signs where you can branch and add more actions
+   - Build your workflow tree by adding actions in sequence or parallel branches
+   - Make sure your workflow is **turned On** (check the toggle switch)
+   - Click **"Publish Changes"** to save and activate your workflow
+
+3. **Available Actions**
+   Embed Workflow provides pre-built actions you can use immediately:
+   - **Send Email** - Send automated emails
+   - **Send Direct Message** - Send private Slack messages to users
+   - **Send Message** - Send Slack messages to channels
+   - **Ask ChatGPT** - Get AI responses and insights
+   - **Trigger** - Start other workflows
+   - **Condition** - Add conditional logic to workflows
+   - **WaitUntil** - Wait for specific conditions
+   - **Delay** - Add time delays between actions
+
+4. **Example Email Workflow**
+   When configuring the Send Email action, click the red **+** sign next to each field to add variables from your trigger:
+   - **To:** `user@example.com` 
+   - **Subject:** `New Task: {{task_name}}`
+   - **Body:**
+     ```
+     A new task has been created:
+     
+     Task: {{task_name}}
+     Description: {{task_description}}
+     Created: {{created_at}}
+     
+     Best regards,
+     Todo App Team
+     ```
+
+For detailed Slack configuration, see the [Slack Setup](#slack-configuration) section below.
+
+---
 
 ## Using the Application
 
-1. **Create Tasks**  
-   Enter the task name and description, then click "Create" to add the task.
+### Task Management
 
-2. **Complete Tasks**  
-   Click on a task to toggle its completion state. The system sends notifications when you mark tasks as complete.
+1. **Create Tasks** - Add task name and description
+2. **Complete Tasks** - Click to toggle completion status
+3. **Automatic Notifications** - Workflows trigger on task events
 
-3. **Access Embedded Workflow UI**  
-   The embedded workflow builder is integrated directly into this application. Choose one of these options to access it:
-   - **Workflows Tab**: Click the "Workflows" tab in the application, enter your User Key (found in your API Keys section), and click "Load"
-   - **Direct Access**: Go to `/main-workflows` to access the main user's workflows
-   - **User-Specific Access**: Access any user's workflows at `/workflows/[user-key]`
-   
-   **Finding Your User Key:**
-   Your User Key is located in the same place as your API keys - in the gear icon (⚙️) settings under the "API Keys" tab. Use this User Key to load your specific workflows in the embedded interface.
-   
-   Create, edit, and monitor your workflows directly within the application using the embedded Embed Workflow interface.
 
-## Implementation Details
 
-- The browser's localStorage stores tasks and email lists
-- The application communicates with Embed Workflow through the API
-- The system triggers notifications when you create or complete tasks
+## Implementation Notes
+
+- Tasks stored in local text file
+- Real-time API communication with Embed Workflow
+- Automatic trigger activation on task events
 
 ## Slack Configuration
 
@@ -192,7 +250,7 @@ Before using the "Send Message" action, you need to create a Slack connection:
 
 ### 2. Choose Your Slack Action
 
-Embed Workflow provides two Slack messaging options:
+Embed Workflow provides two Slack messaging options that automatically load all available users, channels, and groups from your workspace:
 
 - **Send Message** - Send messages to channels or groups
 - **Send Direct Message** - Send private messages directly to users
@@ -203,9 +261,9 @@ Once your Slack connection is set up, configure the Send Message action with the
 
 **Connection Name:** Bot Token (or your chosen connection name)
 
-**Channel:** `demo` (or use variables like `{{channel_name}}`)
+**Channel:** `demo`
 - Select a specific channel to send the message to
-- Examples: `#general`, `#notifications`, `demo`, `{{assigned_channel}}`
+- Examples: `#general`, `#notifications`, `demo`
 
 **Message (for task assignment to team channel):** 
 ```
@@ -371,16 +429,14 @@ Use this action to send private messages directly to users:
 
 **Connection Name:** Bot Token (or your chosen connection name)
 
-**User:** `{{assigned_to}}` (or select from dropdown)
-- The dropdown automatically loads all users from your Slack workspace
-- You can select a specific user from the list or use variables like `{{assigned_to}}`
-- Examples: Select from dropdown, `{{user_email}}`, `{{assigned_to}}`
+**User:** Select from available users
+- Choose a specific user from the dropdown list
 
 **Message (for personal task assignment):**
 ```
-Hi {{assigned_to}}! 👋
+Hi there! 👋
 
-You've been assigned a new task:
+You have a new task:
 
 📝 Task: {{task_name}}
 📄 Description: {{task_description}}
@@ -470,3 +526,68 @@ Keep up the great work! 🚀
 ## Customization
 
 Customize email templates and workflow behavior in your Embed Workflow account.
+
+## How it was implemented?
+
+### Embedded Workflow Implementation
+
+The embedded workflow builder is implemented in `/pages/workflows/[id].js`. Here are the key code blocks:
+
+### Embed the Workflow Builder
+
+First, add the following script tag to your HTML:
+
+```html
+<!-- Load CSS / JS -->
+<link rel="stylesheet" media="screen" href="https://cdn.ewf.to/ewf-1.43.0.css">
+<script src="https://cdn.ewf.to/ewf-1.43.0.js"></script>
+
+<!-- Mounted App -->
+<div class="EWF__app" data-base-path="workflows"></div>
+
+<script type="text/javascript">
+  EWF.load("pk_live_XzF0WUAKE2XM6N3O8Y6VeckS", { jwt: "REPLACE_ME_WITH_YOUR_JWT" });
+
+  // For testing purposes, you can use a temporary user token instead of a JWT.
+  // Note: This token will expire - you'll need to refresh the page and update the token when it does.
+  // EWF.load("pk_live_XzF0WUAKE2XM6N3O8Y6VeckS", { userToken: "eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJbHBuYVdRNkx5OWhZM1IxYldsNlpTOURiMjV1WldOMFFuazZPbFZ6WlhJdk1ERTVOemRsWVRFdFlUZGxNaTAzTVdGaUxXRTVPV1V0WTJNNVl6TTRZV0l6TlRZelAyVjRjR2x5WlhOZmFXNDlNVGN5T0RBd0Jqb0dSVlE9IiwiZXhwIjoiMjAyNS0wNy0wMVQxNjozMzo0Mi42MDhaIiwicHVyIjoiZGVmYXVsdCJ9fQ==--1d095a56e1ad4346325c781f7790ee63a8c3d099" });
+</script>
+```
+
+### Implementation in Next.js
+
+**1. Loading the Embed Workflow UI:**
+```jsx
+const script = document.createElement("script");
+script.src = `https://cdn.ewf.to/ewf-${ewfVersion}.js`;
+
+script.onload = () => {
+  loadWorkflows();
+};
+```
+
+**2. Embedding Container:**
+```jsx
+<div
+  className="EWF__app"
+  data-base-path="workflows"
+></div>
+```
+
+**3. Initialization:**
+```jsx
+const loadWorkflows = () => window.EWF.load(embedWorkflowPk, { 
+  jwt: token
+});
+```
+
+**4. JWT Token Generation:**
+```jsx
+const payload = {
+  sub: id, // user's unique identifier
+  iat: currentTime,
+  exp: currentTime + 60 * 60,
+  discover: true
+};
+const token = JWT.sign(payload, secret, { algorithm: "HS256" });
+```

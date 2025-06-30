@@ -22,6 +22,7 @@ See your workflows embedded directly in your application! This Todo app demonstr
 - [Customization](#customization)
 - [How it was implemented?](#how-it-was-implemented)
   - [Embedded Workflow Implementation](#embedded-workflow-implementation)
+  - [How Embedded Workflow Receives Variables](#how-embedded-workflow-receives-variables)
 
 ## 🚀 Quick Start
 
@@ -222,8 +223,6 @@ For detailed Slack configuration, see the [Slack Setup](#slack-configuration) se
 1. **Create Tasks** - Add task name and description
 2. **Complete Tasks** - Click to toggle completion status
 3. **Automatic Notifications** - Workflows trigger on task events
-
-
 
 ## Implementation Notes
 
@@ -590,4 +589,58 @@ const payload = {
   discover: true
 };
 const token = JWT.sign(payload, secret, { algorithm: "HS256" });
+```
+
+### How Embedded Workflow Receives Variables
+
+When your application triggers a workflow, it sends data to Embed Workflow through API calls. Here's how the variables flow from your app to your workflows:
+
+**1. Trigger API Call:**
+Your application sends a POST request to trigger workflows:
+```javascript
+const response = await fetch('/api/trigger-workflow', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    event: 'todo_list_item_created',
+    data: {
+      task_id: '12345',
+      task_name: 'Complete project documentation',
+      task_description: 'Write comprehensive docs for the new feature',
+      created_at: new Date().toISOString()
+    }
+  })
+});
+```
+
+**2. Server-side Processing:**
+The `/pages/api/trigger-workflow.js` endpoint forwards this data to Embed Workflow:
+```javascript
+const payload = {
+  event: eventName,
+  data: eventData
+};
+
+const response = await fetch('https://embedworkflow.com/api/v1/events', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.EMBED_WORKFLOW_SK}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(payload)
+});
+```
+
+**3. Variable Mapping:**
+Embed Workflow maps the incoming data to your trigger's schema:
+- `data.task_id` → `{{task_id}}` variable
+- `data.task_name` → `{{task_name}}` variable  
+- `data.task_description` → `{{task_description}}` variable
+- `data.created_at` → `{{created_at}}` variable
+
+**4. Using Variables in Actions:**
+These variables become available in your workflow actions:
+```
+Subject: New Task: {{task_name}}
+Body: Task "{{task_description}}" was created on {{created_at}}
 ```

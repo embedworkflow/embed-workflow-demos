@@ -6,6 +6,7 @@ See your workflows embedded directly in your application! This Todo app demonstr
 
 ## Table of Contents
 
+- [Prerequisites](#prerequisites)
 - [Quick Start Guide](#quick-start-guide)
   - [1. Navigate to Project Directory](#1-navigate-to-project-directory)
   - [2. Install Dependencies](#2-install-dependencies)
@@ -23,6 +24,17 @@ See your workflows embedded directly in your application! This Todo app demonstr
 - [How it was implemented?](#how-it-was-implemented)
   - [Embedded Workflow Implementation](#embedded-workflow-implementation)
   - [How Embedded Workflow Receives Variables](#how-embedded-workflow-receives-variables)
+
+## Prerequisites
+
+Before getting started, ensure you have:
+
+- **Node.js** (v14 or later) - [Download here](https://nodejs.org/)
+- **npm** or **yarn** - Comes with Node.js
+- **Embed Workflow account** - [Sign up here](https://embedworkflow.com)
+- **Gmail account** - For email notifications
+- **Slack workspace** (optional) - For Slack notifications
+- **Slack Bot Token** (optional) - Required for Slack integration
 
 ## 🚀 Quick Start
 

@@ -73,8 +73,8 @@ Then edit `.env.local` with your actual keys:
 EMBED_WORKFLOW_SK=your_secret_key_here
 EMBED_WORKFLOW_PK=your_publishable_key_here
 NEXT_PUBLIC_EMBED_WORKFLOW_PK=your_publishable_key_here
-EMBED_WORKFLOW_UI_VERSION=latest
-NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION=latest
+EMBED_WORKFLOW_UI_VERSION=x.x.x
+NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION=x.x.x
 
 # Optional: Set a default user for workflows (defaults to 'main')
 # EMBED_WORKFLOW_DEFAULT_USER=main
@@ -93,10 +93,8 @@ NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION=latest
 
 **User-Specific Workflows:** Each user has their own set of workflows and automations. The app uses `EMBED_WORKFLOW_DEFAULT_USER` (defaults to 'main') to determine which user's workflows to load. This is important because:
 
-- Each user can have different workflows and triggers
+- Each user can have different workflows
 - Tasks and automations are isolated per user
-- In a multi-tenant scenario, you'd set different users for different clients
-- For example: `EMBED_WORKFLOW_DEFAULT_USER=client_123` would load workflows specific to that client
 
 Change the user by setting `EMBED_WORKFLOW_DEFAULT_USER` in your `.env.local` file.
 

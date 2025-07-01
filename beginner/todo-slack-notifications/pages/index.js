@@ -322,10 +322,10 @@ export default function TodoApp() {
         {/* Header */}
         <div className="mb-10">
           <h1 className="text-3xl font-light text-gray-900 mb-1">
-            {activeTab === 'tasks' ? 'Tasks' : 'Workflows'}
+            Tasks
           </h1>
           <p className="text-gray-400 text-sm">
-            {activeTab === 'tasks' ? 'Task management with email notifications' : 'Automate your processes'}
+            Task management with email notifications
           </p>
         </div>
 
@@ -342,21 +342,16 @@ export default function TodoApp() {
             Tasks
           </button>
           <button
-            onClick={() => setActiveTab('workflows')}
-            className={`px-4 py-1.5 text-sm rounded-full transition-all ${
-              activeTab === 'workflows'
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-500 hover:text-gray-700 border border-gray-200 hover:bg-gray-50'
-            }`}
+            onClick={() => router.push('/workflows')}
+            className="px-4 py-1.5 text-sm rounded-full transition-all text-gray-500 hover:text-gray-700 border border-gray-200 hover:bg-gray-50"
           >
             Workflows
           </button>
         </nav>
 
-        {/* Content based on active tab */}
-        {activeTab === 'tasks' ? (
-          <>
-            {/* Create Task */}
+        {/* Tasks Content */}
+        <>
+          {/* Create Task */}
             <div className="bg-white rounded-lg p-8 mb-10 shadow-sm border border-gray-200">
               <div className="space-y-4">
                 <input
@@ -540,23 +535,7 @@ export default function TodoApp() {
                 </div>
               </div>
             )}
-          </>
-        ) : (
-          /* Workflows Tab */
-          <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
-            <h2 className="text-lg font-medium mb-4">Workflow Builder</h2>
-            <p className="text-sm text-gray-500 mb-6">
-              Access your embedded workflow builder to create and manage automations.
-            </p>
-            
-            <button
-              onClick={() => router.push('/workflows')}
-              className="px-6 py-3 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
-            >
-              Open Workflow Builder
-            </button>
-          </div>
-        )}
+        </>
       </div>
     </div>
   );

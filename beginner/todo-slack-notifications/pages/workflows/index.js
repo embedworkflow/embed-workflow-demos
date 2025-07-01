@@ -151,29 +151,10 @@ const WorkflowsPage = (props) => {
               media="screen"
               href={`https://cdn.ewf.to/ewf-${ewfVersion}.css`}
             />
-            {loadError ? (
-              <div className="p-8 text-center">
-                <div className="text-red-500 text-lg mb-4">Failed to load workflow UI</div>
-                <p className="text-gray-600 mb-6">{errorMessage || "There was an error loading the Embed Workflow interface. Please try again later."}</p>
-                <button
-                  onClick={() => window.location.reload()}
-                  className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 mr-4"
-                >
-                  Retry
-                </button>
-                <button
-                  onClick={goBack}
-                  className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                >
-                  Back to Tasks
-                </button>
-              </div>
-            ) : (
-              <div
-                className="EWF__app"
-                data-base-path="workflows"
-              ></div>
-            )}
+            <div
+              className="EWF__app"
+              data-base-path="workflows"
+            ></div>
           </div>
         </div>
       </div>

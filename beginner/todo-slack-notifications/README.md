@@ -48,22 +48,44 @@ yarn install
 
 **Prerequisites:** You need an Embed Workflow account. [Sign up here](https://embedworkflow.com) if you don't have one.
 
-Create a `.env.local` file in the root directory:
+Copy the `.env.template` to `.env.local` and add your keys:
 
 ```bash
-EMBED_WORKFLOW_SK=your_secret_key
-EMBED_WORKFLOW_PK=your_publishable_key
-EMBED_WORKFLOW_UI_VERSION=1.43.0
+cp .env.template .env.local
 ```
 
-**Get Your API Keys and User Key:**
+Then edit `.env.local` with your actual keys:
+
+```bash
+EMBED_WORKFLOW_SK=your_secret_key_here
+EMBED_WORKFLOW_PK=your_publishable_key_here
+NEXT_PUBLIC_EMBED_WORKFLOW_PK=your_publishable_key_here
+EMBED_WORKFLOW_UI_VERSION=latest
+NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION=latest
+
+# Optional: Set a default user for workflows (defaults to 'main')
+# EMBED_WORKFLOW_DEFAULT_USER=main
+```
+
+**Note:** Check the latest UI version at https://embedworkflow.com/ui-version
+
+**Get Your API Keys:**
 
 ![alt text](media/image.png)
 
 1. Log into your [Embed Workflow account](https://embedworkflow.com/app)
-2. Click the gear icon (⚙️) → API Keys
-3. Copy your Secret Key, Publishable Key, and User Key
+2. Click the gear icon (⚙️) → API Keys  
+3. Copy your Secret Key and Publishable Key
 4. Update the `.env.local` file with your actual keys
+
+**User-Specific Workflows:** Each user has their own set of workflows and automations. The app uses `EMBED_WORKFLOW_DEFAULT_USER` (defaults to 'main') to determine which user's workflows to load. This is important because:
+
+- Each user can have different workflows and triggers
+- Tasks and automations are isolated per user
+- In a multi-tenant scenario, you'd set different users for different clients
+- For example: `EMBED_WORKFLOW_DEFAULT_USER=client_123` would load workflows specific to that client
+
+Change the user by setting `EMBED_WORKFLOW_DEFAULT_USER` in your `.env.local` file.
 
 ### 4. Run the Development Server
 
@@ -78,8 +100,7 @@ yarn dev
 1. Open [http://localhost:3000](http://localhost:3000)
 2. Click the **"Workflows"** tab
   ![alt text](media/Animação5.gif)
-3. Enter your User Key (found in the same API Keys section from step 3 above)
-4. Click **"Load"** to see the embedded workflow builder
+3. Click **"Open Workflow Builder"** to see the embedded workflow builder
 
 ### 6. You're Ready to Build!
 
@@ -171,8 +192,7 @@ Now you can build workflows directly in your embedded application!
 
 1. **Access the Workflow Builder**
    - In your Todo app, click the "Workflows" tab
-   - Enter your User Key (found in your API Keys section)
-   - Click "Load" to access your workflow builder
+   - Click "Open Workflow Builder" to access your embedded workflow builder
 
 2. **Create Your First Workflow**
    - Click "New Workflow" in the embedded builder
@@ -538,8 +558,9 @@ First, add the following script tag to your HTML:
 
 ```html
 <!-- Load CSS / JS -->
-<link rel="stylesheet" media="screen" href="https://cdn.ewf.to/ewf-1.43.0.css">
-<script src="https://cdn.ewf.to/ewf-1.43.0.js"></script>
+<!-- Check latest version at: https://embedworkflow.com/ui-version -->
+<link rel="stylesheet" media="screen" href="https://cdn.ewf.to/ewf-latest.css">
+<script src="https://cdn.ewf.to/ewf-latest.js"></script>
 
 <!-- Mounted App -->
 <div class="EWF__app" data-base-path="workflows"></div>

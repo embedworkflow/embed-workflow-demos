@@ -4,10 +4,10 @@ import Head from 'next/head';
 import JWT from "jsonwebtoken";
 
 export async function getServerSideProps(context) {
-  const { id } = context.params;
   const secret = process.env.EMBED_WORKFLOW_SK;
-  const publishableKey = process.env.EMBED_WORKFLOW_PK;
-  const version = process.env.EMBED_WORKFLOW_UI_VERSION || '1.43.0';
+  const publishableKey = process.env.NEXT_PUBLIC_EMBED_WORKFLOW_PK;
+  const version = process.env.NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION || '1.5.0';
+  const userId = process.env.EMBED_WORKFLOW_DEFAULT_USER || 'main';
   
   if (!secret || !publishableKey) {
     return {
@@ -16,14 +16,14 @@ export async function getServerSideProps(context) {
         token: null,
         embedWorkflowPk: null,
         ewfVersion: version,
-        userId: id
+        userId
       },
     };
   }
   
   const currentTime = Math.floor(Date.now() / 1000);
   const payload = {
-    sub: id, // user's unique identifier
+    sub: userId, // user's unique identifier from ENV
     iat: currentTime,
     exp: currentTime + 60 * 60,
     discover: true, // auto discover users
@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
 
   // Optional: Update user data
   const userPayload = JSON.stringify({
-    email: `${id}@example.com`, // Example email
+    email: `${userId}@example.com`, // Example email
     data: {
       // Sample data for demo purposes
       notificationPreferences: {
@@ -52,7 +52,7 @@ export async function getServerSideProps(context) {
   };
 
   try {
-    await fetch(`https://embedworkflow.com/api/v1/users/${id}`, requestOptions);
+    await fetch(`https://embedworkflow.com/api/v1/users/${userId}`, requestOptions);
   } catch (error) {
     console.log("error updating user:", error);
   }
@@ -62,7 +62,7 @@ export async function getServerSideProps(context) {
       token,
       embedWorkflowPk: publishableKey,
       ewfVersion: version,
-      userId: id
+      userId
     },
   };
 }

@@ -10,7 +10,6 @@ export default function TodoApp() {
   const [activeTab, setActiveTab] = useState('tasks');
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState(null);
-  const [userId, setUserId] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 8;
@@ -545,39 +544,17 @@ export default function TodoApp() {
         ) : (
           /* Workflows Tab */
           <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
-            <h2 className="text-lg font-medium mb-4">Enter User ID</h2>
-            <p className="text-sm text-gray-500 mb-4">
-              Enter your Embed Workflow user ID to access your workflows.
+            <h2 className="text-lg font-medium mb-4">Workflow Builder</h2>
+            <p className="text-sm text-gray-500 mb-6">
+              Access your embedded workflow builder to create and manage automations.
             </p>
             
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && userId.trim() && router.push(`/workflows/${userId.trim()}`)}
-                placeholder="Enter User ID (e.g., main)"
-                className="flex-1 px-4 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-gray-400"
-              />
-              <button
-                onClick={() => {
-                  if (userId.trim()) {
-                    router.push(`/workflows/${userId.trim()}`);
-                  } else {
-                    setNotification({
-                      type: 'warning',
-                      message: 'Please enter a User ID'
-                    });
-                  }
-                }}
-                className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
-              >
-                Load
-              </button>
-            </div>
-            
-            
-            {/* Workflow section removed */}
+            <button
+              onClick={() => router.push('/workflows')}
+              className="px-6 py-3 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
+            >
+              Open Workflow Builder
+            </button>
           </div>
         )}
       </div>

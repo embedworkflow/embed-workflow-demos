@@ -6,35 +6,36 @@ See your workflows embedded directly in your application! This Todo app demonstr
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)
-- [Quick Start Guide](#quick-start-guide)
-  - [1. Navigate to Project Directory](#1-navigate-to-project-directory)
-  - [2. Install Dependencies](#2-install-dependencies)
-  - [3. Set Up Embed Workflow](#3-set-up-embed-workflow)
-  - [4. Run the Development Server](#4-run-the-development-server)
-  - [5. Experience Your Embedded Automation Platform](#5-experience-your-embedded-automation-platform)
-  - [6. You're Ready to Build!](#6-youre-ready-to-build)
-- [Configure Your Workflows](#configure-your-workflows)
-  - [1. Create Triggers](#1-create-triggers)
-  - [2. Create Workflows](#2-create-workflows)
-- [Using the Application](#using-the-application)
-- [Implementation Notes](#implementation-notes)
-- [Slack Configuration](#slack-configuration)
-- [Customization](#customization)
-- [How it was implemented?](#how-it-was-implemented)
-  - [Embedded Workflow Implementation](#embedded-workflow-implementation)
-  - [How Embedded Workflow Receives Variables](#how-embedded-workflow-receives-variables)
-
-## Prerequisites
-
-Before getting started, ensure you have:
-
-- **Node.js** (v14 or later) - [Download here](https://nodejs.org/)
-- **npm** or **yarn** - Comes with Node.js
-- **Embed Workflow account** - [Sign up here](https://embedworkflow.com)
-- **Gmail account** - For email notifications
-- **Slack workspace** (optional) - For Slack notifications
-- **Slack Bot Token** (optional) - Required for Slack integration
+- [Build Your Own Automation Platform: Todo App with Embedded Workflows](#build-your-own-automation-platform-todo-app-with-embedded-workflows)
+  - [Table of Contents](#table-of-contents)
+  - [🚀 Quick Start](#-quick-start)
+    - [1. Navigate to Project Directory](#1-navigate-to-project-directory)
+    - [2. Install Dependencies](#2-install-dependencies)
+    - [3. Set Up Embed Workflow](#3-set-up-embed-workflow)
+    - [4. Run the Development Server](#4-run-the-development-server)
+    - [5. Experience Your Embedded Automation Platform](#5-experience-your-embedded-automation-platform)
+    - [6. You're Ready to Build!](#6-youre-ready-to-build)
+  - [Configure Your Workflows](#configure-your-workflows)
+    - [1. Create Triggers](#1-create-triggers)
+      - [Task Created Trigger](#task-created-trigger)
+      - [Task Completed Trigger](#task-completed-trigger)
+    - [2. Create Workflows](#2-create-workflows)
+  - [Using the Application](#using-the-application)
+    - [Task Management](#task-management)
+  - [Implementation Notes](#implementation-notes)
+  - [Slack Configuration](#slack-configuration)
+    - [1. Create Slack Bot Connection](#1-create-slack-bot-connection)
+    - [2. Choose Your Slack Action](#2-choose-your-slack-action)
+    - [3. Configure Send Message Action (for channels/groups)](#3-configure-send-message-action-for-channelsgroups)
+    - [4. Configure Send Direct Message Action (for users)](#4-configure-send-direct-message-action-for-users)
+    - [5. Variable Examples](#5-variable-examples)
+    - [6. Rich Message Examples](#6-rich-message-examples)
+  - [Customization](#customization)
+  - [How it was implemented?](#how-it-was-implemented)
+    - [Embedded Workflow Implementation](#embedded-workflow-implementation)
+    - [Embed the Workflow Builder](#embed-the-workflow-builder)
+    - [Implementation in Next.js](#implementation-in-nextjs)
+    - [How Embedded Workflow Receives Variables](#how-embedded-workflow-receives-variables)
 
 ## 🚀 Quick Start
 

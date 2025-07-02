@@ -110,8 +110,6 @@ yarn dev
 
 1. Open [http://localhost:3000](http://localhost:3000)
 2. Click the **"Workflows"** tab
-  ![alt text](media/Animação5.gif)
-3. Click **"Open Workflow Builder"** to see the embedded workflow builder
 
 ### 6. You're Ready to Build!
 

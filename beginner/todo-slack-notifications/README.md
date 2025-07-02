@@ -1,6 +1,6 @@
 # Build Your Own Automation Platform: Todo App with Embedded Workflows
 
-![Demo](media/demo.gif)
+![Demo](media/preview.gif)
 
 See your workflows embedded directly in your application! This Todo app demonstrates how to integrate Embed Workflow for automated email and Slack notifications.
 

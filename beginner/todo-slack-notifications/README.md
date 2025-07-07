@@ -1,5 +1,7 @@
 # Build Your Own Automation Platform: Todo App with Embedded Workflows
 
+**Disclaimer**: Parts of this content have been generated with the use of AI.
+
 ![Demo](media/preview.gif)
 
 See your workflows embedded directly in your application! This Todo app demonstrates how to integrate Embed Workflow for automated email and Slack notifications.
@@ -30,7 +32,6 @@ See your workflows embedded directly in your application! This Todo app demonstr
     - [4. Configure Send Direct Message Action (for users)](#4-configure-send-direct-message-action-for-users)
     - [5. Variable Examples](#5-variable-examples)
     - [6. Rich Message Examples](#6-rich-message-examples)
-  - [Customization](#customization)
   - [How it was implemented?](#how-it-was-implemented)
     - [Embedded Workflow Implementation](#embedded-workflow-implementation)
     - [Embed the Workflow Builder](#embed-the-workflow-builder)
@@ -551,10 +552,6 @@ Keep up the great work! 🚀
 *Sent from Todo App Workflow*
 ```
 
-## Customization
-
-Customize email templates and workflow behavior in your Embed Workflow account.
-
 ## How it was implemented?
 
 ### Embedded Workflow Implementation
@@ -563,32 +560,39 @@ The embedded workflow builder is implemented in `/pages/workflows/[id].js`. Here
 
 ### Embed the Workflow Builder
 
+For complete documentation on embedding and authentication, see: [Embed Workflow Quick Start Guide](https://docs.embedworkflow.com/getting-started/quick-start)
+
 First, add the following script tag to your HTML:
 
 ```html
 <!-- Load CSS / JS -->
 <!-- Check latest version at: https://embedworkflow.com/ui-version -->
-<link rel="stylesheet" media="screen" href="https://cdn.ewf.to/ewf-latest.css">
-<script src="https://cdn.ewf.to/ewf-latest.js"></script>
+<link rel="stylesheet" media="screen" href="https://cdn.ewf.to/ewf-REPLACE_ME_WITH_LATEST_UI_VERSION.css">
+<script src="https://cdn.ewf.to/ewf-REPLACE_ME_WITH_LATEST_UI_VERSION.js"></script>
 
 <!-- Mounted App -->
 <div class="EWF__app" data-base-path="workflows"></div>
 
 <script type="text/javascript">
-  EWF.load("pk_live_XzF0WUAKE2XM6N3O8Y6VeckS", { jwt: "REPLACE_ME_WITH_YOUR_JWT" });
+  EWF.load("REPLACE_ME_WITH_YOUR_PK", { jwt: "REPLACE_ME_WITH_YOUR_JWT" });
 
   // For testing purposes, you can use a temporary user token instead of a JWT.
   // Note: This token will expire - you'll need to refresh the page and update the token when it does.
-  // EWF.load("pk_live_XzF0WUAKE2XM6N3O8Y6VeckS", { userToken: "eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJbHBuYVdRNkx5OWhZM1IxYldsNlpTOURiMjV1WldOMFFuazZPbFZ6WlhJdk1ERTVOemRsWVRFdFlUZGxNaTAzTVdGaUxXRTVPV1V0WTJNNVl6TTRZV0l6TlRZelAyVjRjR2x5WlhOZmFXNDlNVGN5T0RBd0Jqb0dSVlE9IiwiZXhwIjoiMjAyNS0wNy0wMVQxNjozMzo0Mi42MDhaIiwicHVyIjoiZGVmYXVsdCJ9fQ==--1d095a56e1ad4346325c781f7790ee63a8c3d099" });
+  // EWF.load("REPLACE_ME_WITH_YOUR_PK", { userToken: "YOUR_TEMPORARY_USER_TOKEN_HERE" });
 </script>
 ```
 
 ### Implementation in Next.js
 
+In the actual Next.js implementation, the version is loaded dynamically from environment variables:
+
 **1. Loading the Embed Workflow UI:**
 ```jsx
+// Version comes from NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION in .env.local
+const version = process.env.NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION || '1.5.0';
+
 const script = document.createElement("script");
-script.src = `https://cdn.ewf.to/ewf-${ewfVersion}.js`;
+script.src = `https://cdn.ewf.to/ewf-${version}.js`;
 
 script.onload = () => {
   loadWorkflows();
@@ -648,10 +652,11 @@ The `/pages/api/trigger-workflow.js` endpoint forwards this data to Embed Workfl
 ```javascript
 const payload = {
   event: eventName,
-  data: eventData
+  execution_data: eventData,
+  user_key: 'main'  // or the specific user key
 };
 
-const response = await fetch('https://embedworkflow.com/api/v1/events', {
+const response = await fetch('https://embedworkflow.com/api/v1/trigger', {
   method: 'POST',
   headers: {
     'Authorization': `Bearer ${process.env.EMBED_WORKFLOW_SK}`,

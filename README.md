@@ -1,5 +1,7 @@
 # Embed Workflow Demos
 
+**Disclaimer**: Parts of this content have been generated with the use of AI.
+
 Practical demo applications for integrating workflow automation into your applications. These examples show how to embed Embed Workflow's visual workflow builder and automation capabilities directly into your platform.
 
 ## What You'll Learn
@@ -22,6 +24,16 @@ A complete Next.js Todo application that demonstrates:
 - JWT authentication for secure access
 - Fallback notification system
 
+### 🟡 Intermediary Demo
+
+**ai-content-router/**
+An advanced AI-powered content generation and distribution system that demonstrates:
+- AI integration with conditional prompts
+- Smart content routing based on content type
+- Multi-channel distribution (Email, Slack)
+- Complex workflow logic with branching
+- OpenAI API integration for content generation
+
 ## Getting Started
 
 1. **Clone the Repository**
@@ -32,8 +44,15 @@ A complete Next.js Todo application that demonstrates:
 
 2. **Choose Your Demo**
    Navigate to the demo you want to explore:
+   
+   **Beginner Level:**
    ```bash
    cd beginner/todo-slack-notifications
+   ```
+   
+   **Intermediary Level:**
+   ```bash
+   cd intermediary/ai-content-router
    ```
 
 3. **Follow Setup Instructions**
@@ -53,4 +72,4 @@ Each demo includes:
 - Configuration examples
 - Troubleshooting guides
 
-Start with the beginner demo to understand the basics, then explore more complex implementations as you become comfortable with the integration patterns.
+Start with the beginner demo to understand the basics, then progress to the intermediary demo to explore advanced features like AI integration and complex workflow logic.

@@ -238,6 +238,25 @@ Now create each condition:
 
 #### 4. Add Ask ChatGPT Actions to Each True Branch  
 
+Before configuring the "Ask ChatGPT" actions, you need to create a connection to OpenAI.
+
+**Create OpenAI Connection:**
+1. In the "Ask ChatGPT" action, select "Create a new connection".
+2. Fill in the following information:
+   * **Connection name:** A descriptive name for your connection (e.g., "My OpenAI Key").
+   * **API Key:** Your OpenAI API key.
+
+**How to get your OpenAI API key:**
+1. Log in to your [OpenAI dashboard](https://platform.openai.com).
+
+**Pro Tip:** We strongly recommend upgrading to a paid OpenAI plan before using this integration. Free accounts frequently encounter rate limiting (429 errors) which can disrupt your workflows.
+
+After creating the connection, the settings options will appear where you can configure:
+- **Model:** Select which ChatGPT model to use (e.g., gpt-3.5-turbo, gpt-4)
+- **Question:** Write your prompt or question for ChatGPT
+- **Length:** Define the maximum length of the generated text (token limit)
+- **Temperature:** Adjust the creativity/randomness of responses (0 = most focused, 2 = most creative)
+
 ![AI content generation action](media/how-it-works-step-3-smart-generate.png)
 Each condition's True branch needs its own ChatGPT action for customized content generation.
 

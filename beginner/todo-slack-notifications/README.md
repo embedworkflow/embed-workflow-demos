@@ -266,7 +266,6 @@ workflows:
 **Import Steps:**
 
 ![Import Configuration](media/import-workflow-configuration.gif)
-*GIF showing the import process - 1200x800 pixels*
 
 1. **Access Configuration Settings**  
    Click the gear icon (⚙️) in your workflow dashboard
@@ -283,7 +282,6 @@ workflows:
    Navigate to the **Workflows** tab to see your imported workflow
    
    ![Imported Workflow](media/workflow-imported-success.png)
-   *Screenshot of successfully imported workflow - 1200x800 pixels*
 
    > **Important:** The import creates your workflow structure. You must configure each action and create connections. Continue with the configuration steps below.
 
@@ -298,7 +296,6 @@ workflows:
    Toggle "On" → Click **Publish Changes**
    
    ![Activate Workflow](media/activate-workflow-toggle.png)
-   *Screenshot showing workflow toggle and publish button - 800x600 pixels*
 
 ---
 
@@ -698,8 +695,6 @@ const response = await fetch('/api/trigger-workflow', {
       task_name: 'Complete project documentation',
       task_description: 'Write comprehensive docs for the new feature',
       created_at: new Date().toISOString(),
-      email_to: 'user@example.com',
-      assigned_to: 'John Doe'
     }
   })
 });

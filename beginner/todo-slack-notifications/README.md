@@ -694,7 +694,7 @@ const response = await fetch('/api/trigger-workflow', {
       task_id: '12345',
       task_name: 'Complete project documentation',
       task_description: 'Write comprehensive docs for the new feature',
-      created_at: new Date().toISOString(),
+      created_at: new Date().toISOString()
     }
   })
 });

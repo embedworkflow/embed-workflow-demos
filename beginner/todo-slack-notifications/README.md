@@ -18,6 +18,9 @@ See your workflows embedded directly in your application! This Todo app demonstr
     - [5. Experience Your Embedded Automation Platform](#5-experience-your-embedded-automation-platform)
     - [6. You're Ready to Build!](#6-youre-ready-to-build)
   - [Configure Your Workflows](#configure-your-workflows)
+    - [Workflow Setup Options](#workflow-setup-options)
+      - [Option A: Import Pre-Built Workflows (Recommended for Quick Start)](#option-a-import-pre-built-workflows-recommended-for-quick-start)
+      - [Option B: Build Workflows Manually](#option-b-build-workflows-manually)
     - [1. Create Triggers](#1-create-triggers)
       - [Task Created Trigger](#task-created-trigger)
       - [Task Completed Trigger](#task-completed-trigger)
@@ -85,7 +88,7 @@ NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION=x.x.x
 
 **Get Your API Keys:**
 
-![alt text](media/image.png)
+![API Keys Location](media/api-keys-location.png)
 
 1. Log into your [Embed Workflow account](https://embedworkflow.com/app)
 2. Click the gear icon (⚙️) → API Keys  
@@ -116,13 +119,195 @@ yarn dev
 
 🎉 **This is it!** You've successfully embedded a complete automation platform into your Todo app. No redirects, no external tools - your users can now create workflows and powerful automations without ever leaving your application.
 
-**What's Next?** Set up your triggers and create your first workflow in the section below.
+**What's Next?** Choose your setup method below - import a ready-made workflow recipe for instant results, or build from scratch to learn every step.
 
 ---
 
 ## Configure Your Workflows
 
-Now that you've seen the embedded builder, let's set up the triggers and workflows for the Todo app.
+You have two ways to set up workflows in your embedded builder. Choose the approach that fits your needs:
+
+### Workflow Setup Options
+
+#### Option A: Import Pre-Built Workflows (Recommended for Quick Start)
+
+Import the workflow configuration to create your trigger, actions, and workflow structure. You must configure each action with your connections and settings after import:
+
+**Import Task Notification Recipe:**
+
+Copy the recipe below:
+
+```yaml
+# Task Notification Recipe
+# Sends notifications when a new todo task is created
+
+# Apps used for notifications
+apps:
+  - gmail
+  - slack
+
+# Trigger for new task creation
+triggers:
+  - title: "Todo Task Created"
+    description: "Triggered when a new todo list item is created"
+    event: "todo_list_item_created"
+    icon:
+      type: "check-circle"
+      background_color: "green"
+    groups: []
+    data_input_schema:
+      - type: "String"
+        required: true
+        variable: "task_id"
+        data_path: "task_id"
+        display_label: "Task ID"
+      - type: "String"
+        required: true
+        variable: "task_name"
+        data_path: "task_name"
+        display_label: "Task Name"
+      - type: "String"
+        required: false
+        variable: "task_description"
+        data_path: "task_description"
+        display_label: "Task Description"
+      - type: "Date"
+        required: true
+        variable: "created_at"
+        data_path: "created_at"
+        display_label: "Created At"
+      - type: "String"
+        required: true
+        variable: "email_to"
+        data_path: "email_to"
+        display_label: "Email To"
+      - type: "String"
+        required: true
+        variable: "assigned_to"
+        data_path: "assigned_to"
+        display_label: "Assigned To"
+
+# Workflow definition
+workflows:
+  - name: "Send Task Notifications"
+    description: "Notifies team members when a new task is created via email and Slack"
+    categories:
+      - Task Management
+    image_url: "https://cms.embedworkflow.com/wp-content/uploads/2025/07/20250726162344_task_notification_recipe_image.png"
+    summary: |
+      ## Task Notification Workflow
+
+      This workflow sends multi-channel notifications when a new task is created in the todo system.
+
+      ### Steps (Parallel Execution):
+      1. **Trigger**: New todo task is created
+      2. **Email Notification**: Sends task details to assignee via Gmail
+      3. **Slack DM**: Sends direct message to specific user
+      4. **Slack Channel**: Posts task announcement to #demo channel
+
+      ### Key Features:
+      - Parallel execution for instant notifications
+      - Multi-channel communication (Email + Slack)
+      - Rich formatting with emojis in Slack messages
+      - Ensures no task goes unnoticed
+    trigger:
+      event: "todo_list_item_created"
+      match_conditions: "all"
+      conditions: []
+
+    # No edges because all nodes run independently (parallel execution)
+    edges: []
+
+    nodes:
+      - id: "67a409"
+        name: "Send Task Created Email"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.gmail.send_email }}"
+        prefix: ""
+        action_data:
+          form__gmail_to: "{{ email_to }}"
+          form__gmail_subject: "New Task Created: {{ task_name }}"
+          form__gmail_body: |
+            Hi! A new task has been assigned to you: 
+            
+            Task: {{ task_name }} 
+            Description: {{ task_description }} 
+            
+            Best regards,
+            Todo App Team
+          form__gmail_cc: ""
+          form__gmail_bcc: ""
+
+      - id: "06f0b8"
+        name: "Send Direct Message"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.slack.send_direct_message }}"
+        prefix: ""
+        action_data:
+          form__slack_dm_text: |
+            Hi {{ assigned_to }}! 👋
+
+            You have a new task assigned:
+
+            Task: {{ task_name }}
+            Description: {{ task_description }}
+
+            Please check your todo list when you have a moment.
+
+            Best regards,
+            Todo App Team
+          form__slack_dm_blocks: ""
+
+      - id: "b6aa0f"
+        name: "Send Message"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.slack.send_message }}"
+        prefix: ""
+        action_data:
+          form__slack_message_text: |
+            🔔 Task Assignment Alert
+
+              📋 {{ task_name }}
+              👤 Assigned to: {{ assigned_to }}
+              📅 {{ created_at }}
+
+              {{ assigned_to }} - you've got this! 💪
+              Team - let's support each other! 🤝
+          form__slack_blocks: ""
+```
+
+**Import Steps:**
+
+1. **Access Configuration Settings**  
+   Click the gear icon (⚙️) in your workflow dashboard
+
+2. **Open Import Configuration**  
+   Click **Import Configuration** from the settings menu
+
+3. **Import Workflow**  
+   Paste the YAML configuration above → Click **Import**
+   
+   > **Note:** If you receive an "app already installed" error, remove the `apps:` section from the YAML (lines with `- gmail` and `- slack`). This error occurs when these apps exist in your account.
+
+4. **Verify Import**  
+   Navigate to the **Workflows** tab to see your imported workflow
+   
+   > **Important:** The import creates your workflow structure. You must configure each action and create connections. Continue with the configuration steps below.
+
+5. **Configure Connections**  
+   Set up the connections required for this workflow:
+   - **Slack** - Bot token for sending messages
+   - **Gmail** - Email account for notifications
+   - **ChatGPT** (Optional) - OpenAI API key for AI features
+   
+   For more information about setting up connections, check the [Embed Workflow Documentation](https://docs.embedworkflow.com/)
+
+6. **Activate Workflow**  
+   Toggle "On" → Click **Publish Changes**
+
+#### Option B: Build Workflows Manually
+
+For the full experience of building triggers, actions, and workflows from scratch:
 
 ### 1. Create Triggers
 
@@ -151,8 +336,8 @@ The Variable appears in your action configurations as `{{variable_name}}`, while
 ```yaml
 event: "todo_list_item_created"
 icon:
-  type: "bolt"
-  background_color: "slate"
+  type: "check-circle"
+  background_color: "green"
 groups: []
 data_input_schema:
   - type: "String"
@@ -166,7 +351,7 @@ data_input_schema:
     data_path: "task_name"
     display_label: "Task Name"
   - type: "String"
-    required: true
+    required: false
     variable: "task_description"
     data_path: "task_description"
     display_label: "Task Description"
@@ -175,8 +360,18 @@ data_input_schema:
     variable: "created_at"
     data_path: "created_at"
     display_label: "Created At"
-title: "Task Created"
-description: "A task was created"
+  - type: "String"
+    required: true
+    variable: "email_to"
+    data_path: "email_to"
+    display_label: "Email To"
+  - type: "String"
+    required: true
+    variable: "assigned_to"
+    data_path: "assigned_to"
+    display_label: "Assigned To"
+title: "Todo Task Created"
+description: "Triggered when a new todo list item is created"
 ```
 
 #### Task Completed Trigger
@@ -185,8 +380,8 @@ description: "A task was created"
 
 ```yaml
 event: "todo_list_item_completed"
-title: "Task Completed"
-description: "A task was completed"
+title: "Todo Task Completed"
+description: "Triggered when a todo list item is completed"
 data_input_schema:
   # Same as Task Created, but replace "created_at" with:
   - type: "Date"
@@ -641,7 +836,9 @@ const response = await fetch('/api/trigger-workflow', {
       task_id: '12345',
       task_name: 'Complete project documentation',
       task_description: 'Write comprehensive docs for the new feature',
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      email_to: 'user@example.com',
+      assigned_to: 'John Doe'
     }
   })
 });
@@ -672,6 +869,8 @@ Embed Workflow maps the incoming data to your trigger's schema:
 - `data.task_name` → `{{task_name}}` variable  
 - `data.task_description` → `{{task_description}}` variable
 - `data.created_at` → `{{created_at}}` variable
+- `data.email_to` → `{{email_to}}` variable
+- `data.assigned_to` → `{{assigned_to}}` variable
 
 **4. Using Variables in Actions:**
 These variables become available in your workflow actions:

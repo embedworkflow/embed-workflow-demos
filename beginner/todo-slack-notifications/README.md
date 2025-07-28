@@ -21,8 +21,6 @@ See your workflows embedded directly in your application! This Todo app demonstr
   - [Using the Application](#using-the-application)
     - [Task Management](#task-management)
   - [Implementation Notes](#implementation-notes)
-  - [Configure Your Connections](#configure-your-connections)
-    - [Update Your Connections](#update-your-connections)
   - [How it was implemented?](#how-it-was-implemented)
     - [Embedded Workflow Implementation](#embedded-workflow-implementation)
     - [Embed the Workflow Builder](#embed-the-workflow-builder)
@@ -290,6 +288,8 @@ workflows:
    - Click on the Gmail action
    - Follow the OAuth flow to connect your email account
 
+   For detailed connection setup instructions, check the [Embed Workflow Documentation](https://docs.embedworkflow.com/)
+
 6. **Activate Workflow**  
    Toggle "On" → Click **Publish Changes**
    
@@ -311,18 +311,6 @@ workflows:
 - Real-time API communication with Embed Workflow
 - Automatic trigger activation on task events
 
-## Configure Your Connections
-
-To make your imported workflow functional, you'll need to configure the service connections:
-
-### Update Your Connections
-
-Configure the imported workflow actions with your actual service connections:
-
-- **Slack** - Add your bot token for sending messages
-- **Gmail** - Connect your email account for notifications
-
-For detailed connection setup instructions, check the [Embed Workflow Documentation](https://docs.embedworkflow.com/)
 
 
 ## How it was implemented?

@@ -18,13 +18,6 @@ See your workflows embedded directly in your application! This Todo app demonstr
     - [5. Experience Your Embedded Automation Platform](#5-experience-your-embedded-automation-platform)
     - [6. You're Ready to Build!](#6-youre-ready-to-build)
   - [Configure Your Workflows](#configure-your-workflows)
-    - [Workflow Setup Options](#workflow-setup-options)
-      - [Option A: Import Pre-Built Workflows (Recommended for Quick Start)](#option-a-import-pre-built-workflows-recommended-for-quick-start)
-      - [Option B: Build Workflows Manually](#option-b-build-workflows-manually)
-    - [1. Create Triggers](#1-create-triggers)
-      - [Task Created Trigger](#task-created-trigger)
-      - [Task Completed Trigger](#task-completed-trigger)
-    - [2. Create Workflows](#2-create-workflows)
   - [Using the Application](#using-the-application)
     - [Task Management](#task-management)
   - [Implementation Notes](#implementation-notes)
@@ -119,17 +112,11 @@ yarn dev
 
 🎉 **This is it!** You've successfully embedded a complete automation platform into your Todo app. No redirects, no external tools - your users can now create workflows and powerful automations without ever leaving your application.
 
-**What's Next?** Choose your setup method below - import a ready-made workflow recipe for instant results, or build from scratch to learn every step.
+**What's Next?** Import the ready-made workflow recipe below for instant results.
 
 ---
 
 ## Configure Your Workflows
-
-You have two ways to set up workflows in your embedded builder. Choose the approach that fits your needs:
-
-### Workflow Setup Options
-
-#### Option A: Import Pre-Built Workflows (Recommended for Quick Start)
 
 Import the workflow configuration to create your trigger, actions, and workflow structure. You must configure each action with your connections and settings after import:
 
@@ -278,6 +265,9 @@ workflows:
 
 **Import Steps:**
 
+![Import Configuration](media/import-workflow-configuration.gif)
+*GIF showing the import process - 1200x800 pixels*
+
 1. **Access Configuration Settings**  
    Click the gear icon (⚙️) in your workflow dashboard
 
@@ -292,152 +282,23 @@ workflows:
 4. **Verify Import**  
    Navigate to the **Workflows** tab to see your imported workflow
    
+   ![Imported Workflow](media/workflow-imported-success.png)
+   *Screenshot of successfully imported workflow - 1200x800 pixels*
+
    > **Important:** The import creates your workflow structure. You must configure each action and create connections. Continue with the configuration steps below.
 
 5. **Configure Connections**  
    Set up the connections required for this workflow:
    - **Slack** - Bot token for sending messages
    - **Gmail** - Email account for notifications
-   - **ChatGPT** (Optional) - OpenAI API key for AI features
    
    For more information about setting up connections, check the [Embed Workflow Documentation](https://docs.embedworkflow.com/)
 
 6. **Activate Workflow**  
    Toggle "On" → Click **Publish Changes**
-
-#### Option B: Build Workflows Manually
-
-For the full experience of building triggers, actions, and workflows from scratch:
-
-### 1. Create Triggers
-
-In your Embed Workflow dashboard, navigate to the Triggers tab and create these triggers:
-
-![Embed Workflow Triggers Tab](media/embed-workflow-triggers-tab.png)
-
-**Steps to Create a Trigger:**
-1. Go to your Embed Workflow dashboard
-2. Click on the "Triggers" tab
-3. Click "New Trigger"
-4. Configure the fields using the YAML configurations below
-5. Click **"Publish Changes"** to make your triggers active
-
-**Understanding Variable vs Data Path:**
-
-![Trigger Data Schema Configuration](media/trigger-data-schema-config.png)
-
-- **Variable:** The name you'll use to reference this data in your workflow actions (e.g., `task_name`, `task_description`)
-- **Data Path:** The actual path in the JSON data your application sends (e.g., `task_id`, `task_name`)
-
-The Variable appears in your action configurations as `{{variable_name}}`, while the Data Path tells Embed Workflow where to find that data in your API payload.
-
-#### Task Created Trigger
-
-```yaml
-event: "todo_list_item_created"
-icon:
-  type: "check-circle"
-  background_color: "green"
-groups: []
-data_input_schema:
-  - type: "String"
-    required: true
-    variable: "task_id"
-    data_path: "task_id"
-    display_label: "Task ID"
-  - type: "String"
-    required: true
-    variable: "task_name"
-    data_path: "task_name"
-    display_label: "Task Name"
-  - type: "String"
-    required: false
-    variable: "task_description"
-    data_path: "task_description"
-    display_label: "Task Description"
-  - type: "Date"
-    required: true
-    variable: "created_at"
-    data_path: "created_at"
-    display_label: "Created At"
-  - type: "String"
-    required: true
-    variable: "email_to"
-    data_path: "email_to"
-    display_label: "Email To"
-  - type: "String"
-    required: true
-    variable: "assigned_to"
-    data_path: "assigned_to"
-    display_label: "Assigned To"
-title: "Todo Task Created"
-description: "Triggered when a new todo list item is created"
-```
-
-#### Task Completed Trigger
-
-**Pro tip:** Duplicate the Task Created trigger and modify these fields:
-
-```yaml
-event: "todo_list_item_completed"
-title: "Todo Task Completed"
-description: "Triggered when a todo list item is completed"
-data_input_schema:
-  # Same as Task Created, but replace "created_at" with:
-  - type: "Date"
-    required: true
-    variable: "completed_at"
-    data_path: "completed_at"
-    display_label: "Completed At"
-```
-
-### 2. Create Workflows
-
-Now you can build workflows directly in your embedded application! 
-
-1. **Access the Workflow Builder**
-   - In your Todo app, click the "Workflows" tab
-   - Click "Open Workflow Builder" to access your embedded workflow builder
-
-2. **Create Your First Workflow**
-   - Click "New Workflow" in the embedded builder
-   - Give it a descriptive name (e.g., "Send Email on Task Creation")
-   - Select your Task Created trigger
-   - Click the **+** sign below the trigger to add your first action
-   - Choose an action (like Send Email) from the available options
-   - Each action shows additional **+** signs where you can branch and add more actions
-   - Build your workflow tree by adding actions in sequence or parallel branches
-   - Make sure your workflow is **turned On** (check the toggle switch)
-   - Click **"Publish Changes"** to save and activate your workflow
-
-3. **Available Actions**
-   Embed Workflow provides pre-built actions you can use immediately:
-   - **Send Email** - Send automated emails
-   - **Send Direct Message** - Send private Slack messages to users
-   - **Send Message** - Send Slack messages to channels
-   - **Ask ChatGPT** - Get AI responses and insights
-   - **Trigger** - Start other workflows
-   - **Condition** - Add conditional logic to workflows
-   - **WaitUntil** - Wait for specific conditions
-   - **Delay** - Add time delays between actions
-
-4. **Example Email Workflow**
-   When configuring the Send Email action, click the red **+** sign next to each field to add variables from your trigger:
-   - **To:** `user@example.com` 
-   - **Subject:** `New Task: {{task_name}}`
-   - **Body:**
-     ```
-     A new task has been created:
-     
-     Task: {{task_name}}
-     Description: {{task_description}}
-     Created: {{created_at}}
-     
-     Best regards,
-     Todo App Team
-     ```
-
-For detailed Slack configuration, see the [Slack Setup](#slack-configuration) section below.
+   
+   ![Activate Workflow](media/activate-workflow-toggle.png)
+   *Screenshot showing workflow toggle and publish button - 800x600 pixels*
 
 ---
 
@@ -446,7 +307,7 @@ For detailed Slack configuration, see the [Slack Setup](#slack-configuration) se
 ### Task Management
 
 1. **Create Tasks** - Add task name and description
-2. **Complete Tasks** - Click to toggle completion status
+2. **Complete Tasks** - Click to toggle completion status  
 3. **Automatic Notifications** - Workflows trigger on task events
 
 ## Implementation Notes

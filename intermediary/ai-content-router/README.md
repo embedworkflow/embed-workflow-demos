@@ -4,9 +4,9 @@
 
 ![AI Content Router Banner](media/ai-content-router-banner.png)
 
-**Intermediary Demo Level** - Advanced workflow concepts such as conditional logic, which gives artificial intelligence, and multi-channel routing are used.
+**Intermediary Demo Level** - Learn conditional logic, AI integration, and multi-channel routing.
 
-This demo demonstrates Embed Workflow implementation for smart content creation and delivery. Create robust, type-aware workflows that automatically send your content to the right channels based on your business needs.
+Generate AI-powered content and route it to the right channels. Build workflows that understand content types and deliver them where you need.
 
 ## Table of Contents
 
@@ -17,18 +17,9 @@ This demo demonstrates Embed Workflow implementation for smart content creation 
     - [2. Install Dependencies](#2-install-dependencies)
     - [3. Set Up Embed Workflow](#3-set-up-embed-workflow)
     - [4. Run the Development Server](#4-run-the-development-server)
-    - [5. Verify Embedded Workflow Builder](#5-verify-embedded-workflow-builder)
+    - [5. Experience Your Embedded Automation Platform](#5-experience-your-embedded-automation-platform)
     - [6. You're Ready to Build!](#6-youre-ready-to-build)
-  - [Configure Your Workflows](#configure-your-workflows)
-    - [1. Create a trigger](#1-create-a-trigger)
-      - [Content Generation Trigger](#content-generation-trigger)
-    - [2. Create Workflows](#2-create-workflows)
-      - [1. Access the Workflow Builder](#1-access-the-workflow-builder)
-      - [2. Create a New Workflow](#2-create-a-new-workflow)
-      - [3. Set Up Content Type Routing with Conditions](#3-set-up-content-type-routing-with-conditions)
-      - [4. Add Ask ChatGPT Actions to Each True Branch](#4-add-ask-chatgpt-actions-to-each-true-branch)
-      - [5. Add Distribution Actions](#5-add-distribution-actions)
-      - [6. Finalize and Activate](#6-finalize-and-activate)
+  - [Import Your Workflow](#import-your-workflow)
   - [Using the Application](#using-the-application)
     - [Step-by-Step Testing](#step-by-step-testing)
   - [Implementation Notes](#implementation-notes)
@@ -40,14 +31,14 @@ This demo demonstrates Embed Workflow implementation for smart content creation 
 
 ## 🚀 Quick Start
 
-Follow these steps to see AI-powered content generation in action within minutes.
+Follow these steps to see the embedded workflow builder in your app within minutes.
 
 ### 1. Navigate to Project Directory
 
 ```bash
-cd intermediary/ai-content-router
+cd embed-workflow-demos/intermediary/ai-content-router
 # or on Windows
-cd embed-workflow-demos\\intermediary\\ai-content-router
+cd embed-workflow-demos\intermediary\ai-content-router
 ```
 
 ### 2. Install Dependencies
@@ -85,14 +76,19 @@ NEXT_PUBLIC_EMBED_WORKFLOW_UI_VERSION=x.x.x
 
 **Get Your API Keys:**
 
+![API Keys Location](media/api-keys-location.png)
+
 1. Log into your [Embed Workflow account](https://embedworkflow.com/app)
 2. Click the gear icon (⚙️) → API Keys  
 3. Copy your Secret Key and Publishable Key
 4. Update the `.env.local` file with your actual keys
 
-For complete setup documentation, see: [Embed Workflow Quick Start Guide](https://docs.embedworkflow.com/getting-started/quick-start)
+**User-Specific Workflows:** Each user has their own set of workflows and automations. The app uses `EMBED_WORKFLOW_DEFAULT_USER` (defaults to 'main') to determine which user's workflows to load. This is important because:
 
-For API documentation, see: [Embed Workflow API Documentation](https://api-docs.embedworkflow.com/#api-overview)
+- Each user can have different workflows
+- Tasks and automations are isolated per user
+
+Change the user by setting `EMBED_WORKFLOW_DEFAULT_USER` in your `.env.local` file.
 
 ### 4. Run the Development Server
 
@@ -102,316 +98,350 @@ npm run dev
 yarn dev
 ```
 
-### 5. Verify Embedded Workflow Builder
+### 5. Experience Your Embedded Automation Platform
 
-1. **Open the Application**
-   - Open [http://localhost:3000](http://localhost:3000) in your browser
-
-2. **Access the Embedded Workflow Builder**
-   - Click the **"Manage Workflows"** button
-   - This opens the embedded workflow builder directly in your app
-   - You should see the Embed Workflow interface loaded without any redirects
+1. Open [http://localhost:3000](http://localhost:3000)
+2. Click the **"Manage Workflows"** button
 
 ### 6. You're Ready to Build!
 
-**It's here!** You've just added an AI-driven content creation platform to your application. No redirects, no external tooling - your users can now build sophisticated workflows and highly featured automations directly within your application.
+🎉 **This is it!** You've successfully embedded a complete automation platform into your Todo app. No redirects, no external tools - your users can now create workflows and powerful automations without ever leaving your application.
 
-**What's Next?** Open your triggers and define your first workflow.
+**What's Next?** Simply import the workflow below to get started!
 
-## Configure Your Workflows
+## Import Your Workflow
 
-Now that we've reviewed the embedded builder, let's establish the AI content generation triggers and workflows.
+Import the workflow configuration to create your trigger, actions, and workflow structure. You must configure each action with your connections and settings after import:
 
-### 1. Create a trigger
-![alt text](image-1.png)
+**Task Notification Recipe:**
 
-Go to your Embed Workflow dashboard, and click on Triggers tab and create this trigger:
-
-**Steps to Create a Trigger:**
-
-1. Go to your Embed Workflow dashboard
-2. Click on the "Triggers" tab
-3. Click "New Trigger"
-4. Configure the fields using the YAML configuration below
-5. Click **"Publish Changes"** to make your trigger active
-![alt text](image.png)
-
-#### Content Generation Trigger
+Copy the recipe below:
 
 ```yaml
-event: "content_generation_requested"
-icon:
-  type: "zap"
-  background_color: "blue"
-groups: []
-data_input_schema:
-  - type: "String"
-    required: true
-    variable: "content_type"
-    data_path: "content_type"
-    display_label: "Content Type"
-  - type: "String"
-    required: true
-    variable: "topic"
-    data_path: "topic"
-    display_label: "Topic"
-  - type: "String"
-    required: false
-    variable: "key_points"
-    data_path: "key_points"
-    display_label: "Key Points"
-title: "Content Generation Requested"
-description: "AI content generation and distribution requested"
+# Content Generation Recipe
+# AI-powered content generation and distribution based on content type
+
+# Apps used for content generation and distribution
+apps:
+  - gmail
+  - slack
+  - openai
+
+# Trigger for content generation requests
+triggers:
+  - title: "Content Generation Requested"
+    description: "Triggered when content generation is requested"
+    event: "content_generation_requested"
+    icon:
+      type: "sparkles"
+      background_color: "purple"
+    groups: []
+    data_input_schema:
+      - type: "String"
+        required: true
+        variable: "content_type"
+        data_path: "content_type"
+        display_label: "Content Type"
+      - type: "String"
+        required: true
+        variable: "topic"
+        data_path: "topic"
+        display_label: "Topic"
+      - type: "String"
+        required: false
+        variable: "key_points"
+        data_path: "key_points"
+        display_label: "Key Points"
+
+# Workflow definition
+workflows:
+  - name: "AI Content Generation and Distribution"
+    description: "Generates different types of content using AI and distributes through appropriate channels"
+    categories:
+      - Content Creation
+    image_url: "https://cms.embedworkflow.com/wp-content/uploads/2025/07/20250726162345_content_generation_image.png"
+    summary: |
+      ## AI Content Generation Workflow
+
+      This advanced workflow uses AI to generate different types of content and automatically distributes them through the appropriate channels based on content type.
+
+      ### Conditional Branches:
+      1. **Blog Post** → Generate with GPT-4 Turbo (800-1200 words) → Email to marketing team
+      2. **Team Update** → Generate with GPT-4 Turbo (300 words) → Post to Slack #demo
+      3. **Manager Summary** → Generate with GPT-4 (data-driven) → DM to manager
+      4. **Alert** → Generate urgent alert → Slack #demo → Follow-up email
+
+      ### Key Features:
+      - Intelligent routing based on content type
+      - Different AI models and parameters per content type
+      - Multi-channel distribution
+      - Temperature set to 0.2 for consistent output
+      - Sequential notification for alerts (Slack then email)
+    trigger:
+      event: "content_generation_requested"
+      match_conditions: "all"
+      conditions: []
+
+    # Complex conditional routing based on content type
+    edges:
+      - "33f939-883342"  # Blog post condition -> Generate blog
+      - "883342-bc08bd"  # Generate blog -> Send email
+      - "959df7-3fa8ea"  # Team update condition -> Generate update
+      - "3fa8ea-85bc47"  # Generate update -> Post to Slack
+      - "7a7541-4d82bf"  # Manager summary condition -> Generate summary
+      - "4d82bf-aeca40"  # Generate summary -> Send DM
+      - "9b59d2-c7fd2a"  # Alert condition -> Generate alert
+      - "c7fd2a-611b02"  # Generate alert -> Post to Slack
+      - "611b02-6c2c71"  # Post alert -> Send email
+
+    nodes:
+      # Blog Post Branch
+      - id: "33f939"
+        name: "Blog Post"
+        type: "Condition"
+        action_type_id: "{{ native.condition }}"
+        match_conditions: "any"
+        conditions:
+          - type: "equal"
+            field: "content_type"
+            value: "blog_post"
+
+      - id: "883342"
+        name: "Generate Blog Post"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.openai.ask_chatgpt }}"
+        prefix: "generated_post_"
+        required_condition_result: true
+        action_data:
+          form__openai_model:
+            label: "gpt-4-turbo"
+            value: "gpt-4-turbo"
+          form__openai_question: |
+            Question:
+
+            Create a comprehensive, SEO-optimized blog post about "{{ topic }}".
+
+            Key points to cover:
+            {{ key_points }}
+
+              Requirements:
+              - Use engaging headlines and subheadings
+              - Include actionable insights
+              - Make it 800-1200 words
+              - End with a clear call-to-action
+              - Professional and informative tone
+          form__openai_max_tokens: 1000
+          form__openai_temperature: 0.2
+
+      - id: "bc08bd"
+        name: "Send Blog Post"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.gmail.send_email }}"
+        prefix: ""
+        action_data:
+          form__gmail_subject: "{{ topic }}"
+          form__gmail_body: "{{ generated_post_generated_text }}"
+          form__gmail_cc: ""
+          form__gmail_bcc: ""
+
+      # Team Update Branch
+      - id: "959df7"
+        name: "Team Update"
+        type: "Condition"
+        action_type_id: "{{ native.condition }}"
+        match_conditions: "any"
+        conditions:
+          - type: "equal"
+            field: "content_type"
+            value: "team_update"
+
+      - id: "3fa8ea"
+        name: "Team Update"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.openai.ask_chatgpt }}"
+        prefix: "generated_update_"
+        required_condition_result: true
+        action_data:
+          form__openai_model:
+            label: "gpt-4-turbo"
+            value: "gpt-4-turbo"
+          form__openai_question: |
+            Write a friendly, concise team update about "{{ topic }}".
+
+            Key points to cover:
+            {{ key_points }}
+
+            Style requirements:
+            - Keep it warm and encouraging
+            - Use bullet points for clarity
+            - Include any relevant metrics or achievements
+            - End with next steps or upcoming priorities
+            - Maximum 300 words
+            - Casual but professional tone
+          form__openai_max_tokens: 300
+          form__openai_temperature: 0.2
+
+      - id: "85bc47"
+        name: "Team Update Slack"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.slack.send_message }}"
+        prefix: ""
+        action_data:
+          form__slack_message_text: "{{ generated_update_generated_text }}"
+          form__slack_blocks: ""
+
+      # Manager Summary Branch
+      - id: "7a7541"
+        name: "Team Manager"
+        type: "Condition"
+        action_type_id: "{{ native.condition }}"
+        match_conditions: "any"
+        conditions:
+          - type: "equal"
+            field: "content_type"
+            value: "manager_summary"
+
+      - id: "4d82bf"
+        name: "Day Summary Manager"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.openai.ask_chatgpt }}"
+        prefix: "generated_summary_"
+        required_condition_result: true
+        action_data:
+          form__openai_model:
+            label: "gpt-4"
+            value: "gpt-4"
+          form__openai_question: |
+            Write a daily summary report about "{{ topic }}".
+            Include: {{ key_points }}
+            Use a professional, data-driven tone.
+          form__openai_max_tokens: 300
+          form__openai_temperature: 0.2
+
+      - id: "aeca40"
+        name: "Send Day Summary"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.slack.send_direct_message }}"
+        prefix: ""
+        action_data:
+          form__slack_dm_text: "{{ generated_summary_generated_text }}"
+          form__slack_dm_blocks: ""
+
+      # Alert Branch
+      - id: "9b59d2"
+        name: "Team Alert"
+        type: "Condition"
+        action_type_id: "{{ native.condition }}"
+        match_conditions: "any"
+        conditions:
+          - type: "equal"
+            field: "content_type"
+            value: "alert"
+
+      - id: "c7fd2a"
+        name: "Team Alert"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.openai.ask_chatgpt }}"
+        prefix: "generated_alert_"
+        required_condition_result: true
+        action_data:
+          form__openai_model:
+            label: "gpt-4-turbo"
+            value: "gpt-4-turbo"
+          form__openai_question: |
+             Write an urgent alert about "{{ topic }}".
+             Key information: {{ key_points }}
+             Use a direct, action-oriented tone.
+          form__openai_max_tokens: 200
+          form__openai_temperature: 0.2
+
+      - id: "611b02"
+        name: "Send Team Alert"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.slack.send_message }}"
+        prefix: ""
+        action_data:
+          form__slack_message_text: "{{ generated_alert_generated_text }}"
+          form__slack_blocks: ""
+
+      - id: "6c2c71"
+        name: "Send Alert Email"
+        type: "CustomApiRequest"
+        action_type_id: "{{ apps.gmail.send_email }}"
+        prefix: ""
+        action_data:
+          form__gmail_subject: "{{ topic }}"
+          form__gmail_body: |
+               Hello Marketing Team,
+
+               A new blog post has been generated about {{ topic }}.
+
+               === GENERATED CONTENT ===
+
+               {{ generated_alert_generated_text }}
+
+               === END CONTENT ===
+
+               Review and publish as appropriate.
+          form__gmail_cc: ""
+          form__gmail_bcc: ""
 ```
 
-### 2. Create Workflows
+**Import Steps:**
 
-Build AI-powered workflows directly in your embedded application.
+![Import Configuration](media/import-demo.gif)
 
-#### 1. Access the Workflow Builder
+1. **Access Configuration Settings**  
+   Click the gear icon (⚙️) in your workflow dashboard
 
-In your AI Content Router app, click **Manage Workflows**. This opens your embedded workflow builder.
+2. **Open Import Configuration**  
+   Click **Import Configuration** from the settings menu
 
-#### 2. Create a New Workflow  
-1. Click **New Workflow** in the embedded builder
-2. Name it "Smart Content Router"
-3. Select **Content Generation Requested** as your trigger
-4. Click **Create**
-
-#### 3. Set Up Content Type Routing with Conditions  
-
-![Content routing with conditions](media/how-it-works-step-4-auto-route.png)
-
-Create four separate condition branches to route content based on type. After the trigger, click the **+** sign and add conditions.
-
-**Understanding Condition Operations:**
-
-These operations are available when setting up conditions:
-- `==` - Equals (exact match)
-- `!=` - Not equals
-- `includes` - Contains the specified value
-- `excludes` - Does not contain the value
-- `present` - Field exists and has a value
-- `empty` - Field is empty or null
-- `==` `{{}}` - Equals another variable
-- `!=` `{{}}` - Not equals another variable
-
-For multiple conditions in one action, choose:
-- **All conditions must be true** (AND logic)
-- **Any condition must be true** (OR logic)
-
-Now create each condition:
-
-![alt text](image-2.png)
-
-**Blog Post Condition:**  
-1. Click **+** → Select **Condition**
-2. Name: "Blog Post"
-3. Variable: Select `content_type`
-4. Operation: Choose `==` (equals)
-5. Value: Enter `blog_post`
-6. Click **Save** on the Add condition section, then click **Save** on at the end of the condition tab
-
-**Team Update Condition:**  
-1. Click **+** → Select **Condition**
-2. Name: "Team Update"
-3. Variable: Select `content_type`
-4. Operation: Choose `==` (equals)
-5. Value: Enter `team_update`
-6. Click **Save** on the Add condition section, then click **Save** on at the end of the condition tab
-
-**Team Manager Condition:**  
-1. Click **+** → Select **Condition**
-2. Name: "Team Manager"
-3. Variable: Select `content_type`
-4. Operation: Choose `==` (equals)
-5. Value: Enter `manager`
-6. Click **Save** on the Add condition section, then click **Save** on at the end of the condition tab
-
-**Team Alert Condition:**  
-1. Click **+** → Select **Condition**
-2. Name: "Team Alert"
-3. Variable: Select `content_type`
-4. Operation: Choose `==` (equals)
-5. Value: Enter `alert`
-6. Click **Save** on the Add condition section, then click **Save** on at the end of the condition tab
-
-#### 4. Add Ask ChatGPT Actions to Each True Branch  
-
-Before configuring the "Ask ChatGPT" actions, you need to create a connection to OpenAI.
-
-**Create OpenAI Connection:**
-1. In the "Ask ChatGPT" action, select "Create a new connection".
-2. Fill in the following information:
-   * **Connection name:** A descriptive name for your connection (e.g., "My OpenAI Key").
-   * **API Key:** Your OpenAI API key.
-
-**How to get your OpenAI API key:**
-1. Log in to your [OpenAI dashboard](https://platform.openai.com).
-
-**Pro Tip:** We strongly recommend upgrading to a paid OpenAI plan before using this integration. Free accounts frequently encounter rate limiting (429 errors) which can disrupt your workflows.
-
-After creating the connection, the settings options will appear where you can configure:
-- **Model:** Select which ChatGPT model to use (e.g., gpt-3.5-turbo, gpt-4)
-- **Question:** Write your prompt or question for ChatGPT
-- **Length:** Define the maximum length of the generated text (token limit)
-- **Temperature:** Adjust the creativity/randomness of responses (0 = most focused, 2 = most creative)
-
-![AI content generation action](media/how-it-works-step-3-smart-generate.png)
-Each condition's True branch needs its own ChatGPT action for customized content generation.
-
-**For Blog Post (True Branch):**  
-1. Click **+** under the True path
-2. Select **Ask ChatGPT**
-3. Configure:
-   - Action Name: `Generate Blog Post`
-   - Connection: Select your ChatGPT connection
-   - Model: `gpt-4`
-   - Max Length: `2000` tokens
-   - Temperature: `0.7`
-4. In the Prompt field, add:
-   ```
-   Write a blog post about "{{topic}}".
+3. **Import Workflow**  
+   Paste the YAML configuration above → Click **Import**
    
-   Cover these points: {{key_points}}
+   > **Note:** If you receive an "app already installed" error, remove the `apps:` section from the YAML (lines with `- gmail` and `- slack`). This error occurs when these apps exist in your account. Check this by clicking the gear icon (⚙️) → **Installed Apps**.
+
+4. **Verify Import**  
+   Navigate to the **Workflows** tab to see your imported workflow
+
+   ![Imported Workflow](media/workflow-imported-success.png)
+
+   > **Important:** The import creates your workflow structure. You'll need to configure connections and activate the workflow to make it functional.
+
+5. **Configure Your Service Connections**
    
-   Use a professional, informative tone.
-   ```
-5. Click the red **+** to insert `{{topic}}` and `{{key_points}}`
-6. Save
+   Update the imported workflow actions with your actual service connections:
 
-**For Team Update (True Branch):**  
-1. Click **+** under the True path
-2. Select **Ask ChatGPT**
-3. Configure:
-   - Action Name: `Team Update`
-   - Model: `gpt-3.5-turbo`
-   - Max Length: `500` tokens
-   - Temperature: `0.8`
-4. Add the team update prompt with variables:
-   ```
-   Write a team update about "{{topic}}".
+   **Slack Connection:**
+   - Click any Slack action in your workflow
+   - Add your Slack Bot Token (get from [Slack API](https://api.slack.com/apps))
+
+   **Gmail Connection:**
+   - Click the Gmail action
+   - Follow the OAuth flow to connect your email account
+
+   **OpenAI Connection:**
+   - Click the "Ask ChatGPT" action
+   - Select **Create a new connection**
+   - Fill in these fields:
+     - **Connection name:** A descriptive name (e.g., "My OpenAI Key")
+     - **API Key:** Your OpenAI API key
    
-   Include: {{key_points}}
-   
-   Use a friendly, encouraging tone.
-   ```
-5. Save
+   **Getting Your OpenAI API Key:**
+   1. Log in to your [OpenAI dashboard](https://platform.openai.com)
+   2. Navigate to **API Keys** section
+   3. Create a new secret key
+   4. Copy and paste it into the connection form
 
-**For Team Manager (True Branch):**  
-1. Click **+** under the True path
-2. Select **Ask ChatGPT**
-3. Configure:
-   - Action Name: `Day Summary Manager`
-   - Model: `gpt-4`
-   - Max Length: `800` tokens
-   - Temperature: `0.5`
-4. Add the manager summary prompt with variables:
-   ```
-   Write a daily summary report about "{{topic}}".
-   
-   Include: {{key_points}}
-   
-   Use a professional, data-driven tone.
-   ```
-5. Save
 
-**For Team Alert (True Branch):**  
-1. Click **+** under the True path
-2. Select **Ask ChatGPT**
-3. Configure:
-   - Action Name: `Team Alert`
-   - Model: `gpt-3.5-turbo`
-   - Max Length: `300` tokens
-   - Temperature: `0.3`
-4. Add the alert prompt with variables:
-   ```
-   Write an urgent alert about "{{topic}}".
-   
-   Key information: {{key_points}}
-   
-   Use a direct, action-oriented tone.
-   ```
-5. Save
+   For detailed connection setup instructions, check the [Embed Workflow Documentation](https://docs.embedworkflow.com/)
 
-#### 5. Add Distribution Actions  
+6. **Activate Workflow**  
+   Toggle "On" → Click **Publish Changes**
 
-![Content distribution actions](media/how-it-works-step-2-enter-details.png)
+   ![Activate Workflow](media/activate-workflow-toggle.png)
 
-After each Ask ChatGPT action, add distribution actions. The ChatGPT action creates special variables you can use:
-
-**Special ChatGPT Variables Available:**
-- `{{generated_text}}` - The AI-generated content
-- `{{model_used}}` - Model used (gpt-4, gpt-3.5-turbo)
-- `{{completion_id}}` - Unique ID for this generation
-- `{{created_at}}` - The timestamp of when the generation was created
-- `{{finish_reason}}` - Why generation stopped (stop, length)
-- `{{prompt_tokens}}` - Tokens used in the prompt
-- `{{completion_tokens}}` - Tokens used in the response
-- `{{total_tokens}}` - Total tokens used
-
-**Trigger Variables Also Available:**
-- `{{content_type}}` - The content type from the trigger
-- `{{topic}}` - The topic from trigger
-- `{{key_points}}` - The key points from the trigger
-
-**Blog Post → Email Distribution:**  
-1. After "Generate Blog Post", click **+**
-2. Select **Send Email**
-3. Configure:
-   - Action Name: `Send Blog Post`
-   - To: `marketing@yourcompany.com`
-   - Subject: `New Blog Post: {{topic}}`
-4. Email Body - use the red **+** to add:
-   ```
-   Hello Marketing Team,
-
-   A new blog post has been generated about {{topic}}.
-
-   === GENERATED CONTENT ===
-   
-   {{generated_text}}
-   
-   === END CONTENT ===
-   
-   Review and publish as appropriate.
-   ```
-5. Save
-
-**Team Update → Slack Distribution:**  
-1. After "Team Update", click **+**
-2. Select **Send Message**
-3. Configure:
-   - Action Name: `Team Update Slack`
-   - Channel: `#general`
-4. Message - use the red **+** to add:
-   ```
-   📢 *Team Update: {{topic}}*
-   
-   {{generated_text}}
-   ```
-5. Save
-
-**Day Summary → Manager DM:**  
-1. After "Day Summary Manager", click **+**
-2. Select **Send Direct Message**
-3. Configure:
-   - Action Name: `Send Day Summary`
-   - User: `@manager`
-4. Add message with `{{generated_text}}`
-5. Save
-
-**Team Alert → Slack + Email (Two Actions):**  
-1. After "Team Alert", click **+**
-2. Add **Send Message** for Slack #urgent with @here
-3. Click **+** again
-4. Add **Send Email** with high priority
-5. Configure both with `{{generated_text}}`
-
-#### 6. Finalize and Activate  
-1. Review your workflow
-2. Toggle the workflow to **On** status
-3. Click **Publish Changes** to save and activate
 
 ## Using the Application
 
